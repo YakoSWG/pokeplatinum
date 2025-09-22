@@ -1450,7 +1450,7 @@ void sub_0203E274(FieldSystem *fieldSystem, UnkStruct_0203E274 *param1)
     FieldSystem_StartChildProcess(fieldSystem, &v0, param1);
 }
 
-void sub_0203E284(FieldSystem *fieldSystem, UnkStruct_020997B8 *param1)
+void FieldSystem_LaunchMoveRelearnApp(FieldSystem *fieldSystem, RelearnMoveData *param1)
 {
     FS_EXTERN_OVERLAY(overlay91);
 

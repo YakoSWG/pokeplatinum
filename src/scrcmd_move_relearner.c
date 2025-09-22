@@ -1,4 +1,4 @@
-#include "unk_0204EDA4.h"
+#include "scrcmd_move_relearner.h"
 
 #include <nitro.h>
 #include <string.h>
@@ -19,7 +19,7 @@
 #include "unk_0203D1B8.h"
 #include "unk_020997B8.h"
 
-static void sub_0204EE90(ScriptContext *param0, u16 param1, Pokemon *param2, u16 *param3);
+static void ShowMoveRelearner(ScriptContext *param0, u16 param1, Pokemon *param2, u16 *param3);
 
 BOOL ScrCmd_SelectPartyMonMove(ScriptContext *ctx)
 {
@@ -53,55 +53,55 @@ BOOL ScrCmd_Dummy21E(ScriptContext *ctx)
     return FALSE;
 }
 
-BOOL ScrCmd_21F(ScriptContext *param0)
+BOOL ScrCmd_HasRelearnableMove(ScriptContext *ctx)
 {
     Pokemon *mon;
-    u16 *v1;
-    u16 *v2 = ScriptContext_GetVarPointer(param0);
-    u16 v3 = ScriptContext_GetVar(param0);
+    u16 *relearnableMoves;
+    u16 *result = ScriptContext_GetVarPointer(ctx);
+    u16 partySlot = ScriptContext_GetVar(ctx);
 
-    mon = Party_GetPokemonBySlotIndex(SaveData_GetParty(param0->fieldSystem->saveData), v3);
-    v1 = sub_020997D8(mon, HEAP_ID_FIELD3);
-    *v2 = sub_020998D8(v1);
+    mon = Party_GetPokemonBySlotIndex(SaveData_GetParty(ctx->fieldSystem->saveData), partySlot);
+    relearnableMoves = GetRelearnableMoves(mon, HEAP_ID_FIELD3);
+    *result = HasRelearnableMoves(relearnableMoves);
 
-    Heap_Free(v1);
-    return 0;
+    Heap_Free(relearnableMoves);
+    return FALSE;
 }
 
-static void sub_0204EE90(ScriptContext *param0, u16 param1, Pokemon *param2, u16 *param3)
+static void ShowMoveRelearner(ScriptContext *ctx, u16 param1, Pokemon *mon, u16 *relearnList)
 {
-    void **v0 = FieldSystem_GetScriptMemberPtr(param0->fieldSystem, 19);
-    UnkStruct_020997B8 *v1 = sub_020997B8(HEAP_ID_FIELD3);
-    *v0 = v1;
+    void **partyData = FieldSystem_GetScriptMemberPtr(ctx->fieldSystem, SCRIPT_MANAGER_PARTY_MANAGEMENT_DATA);
+    RelearnMoveData *relearnData = RelearnMoveData_New(HEAP_ID_FIELD3);
+    *partyData = relearnData;
 
-    v1->unk_00 = param2;
-    v1->unk_04 = SaveData_GetTrainerInfo(FieldSystem_GetSaveData(param0->fieldSystem));
-    v1->options = SaveData_GetOptions(param0->fieldSystem->saveData);
-    v1->unk_0C = param3;
-    v1->unk_15 = param1;
+    relearnData->mon = mon;
+    relearnData->trainerInfo = SaveData_GetTrainerInfo(FieldSystem_GetSaveData(ctx->fieldSystem));
+    relearnData->options = SaveData_GetOptions(ctx->fieldSystem->saveData);
+    relearnData->relearnList = relearnList;
+    relearnData->unk_15 = param1;
 
-    sub_0203E284(param0->fieldSystem, v1);
-    ScriptContext_Pause(param0, ScriptContext_WaitForApplicationExit);
-    Heap_Free(param3);
+    FieldSystem_LaunchMoveRelearnApp(ctx->fieldSystem, relearnData);
+    ScriptContext_Pause(ctx, ScriptContext_WaitForApplicationExit);
+    Heap_Free(relearnList);
 }
 
-BOOL ScrCmd_220(ScriptContext *param0)
+BOOL ScrCmd_Dummy220(ScriptContext *ctx)
 {
-    return 1;
+    return TRUE;
 }
 
-BOOL ScrCmd_221(ScriptContext *param0)
+BOOL ScrCmd_ShowMoveRelearner(ScriptContext *ctx)
 {
     Pokemon *mon;
-    u16 v1 = ScriptContext_GetVar(param0);
-    u16 *v2;
+    u16 partySlot = ScriptContext_GetVar(ctx);
+    u16 *relearnList;
 
-    mon = Party_GetPokemonBySlotIndex(SaveData_GetParty(param0->fieldSystem->saveData), v1);
-    v2 = sub_020997D8(mon, HEAP_ID_FIELD3);
+    mon = Party_GetPokemonBySlotIndex(SaveData_GetParty(ctx->fieldSystem->saveData), partySlot);
+    relearnList = GetRelearnableMoves(mon, HEAP_ID_FIELD3);
 
-    sub_0204EE90(param0, 1, mon, v2);
+    ShowMoveRelearner(ctx, 1, mon, relearnList);
 
-    return 1;
+    return TRUE;
 }
 
 BOOL ScrCmd_224(ScriptContext *param0)
@@ -117,7 +117,7 @@ BOOL ScrCmd_224(ScriptContext *param0)
     *(v3 + 0) = v2;
     *(v3 + 1) = 0xffff;
 
-    sub_0204EE90(param0, 0, v0, v3);
+    ShowMoveRelearner(param0, 0, v0, v3);
 
     return 1;
 }
@@ -129,7 +129,7 @@ BOOL ScrCmd_222(ScriptContext *param0)
 
 BOOL ScrCmd_223(ScriptContext *param0)
 {
-    UnkStruct_020997B8 *v0;
+    RelearnMoveData *v0;
     u16 *v1 = ScriptContext_GetVarPointer(param0);
     void **v2 = FieldSystem_GetScriptMemberPtr(param0->fieldSystem, 19);
 
@@ -143,14 +143,14 @@ BOOL ScrCmd_223(ScriptContext *param0)
         *v1 = 0xff;
     }
 
-    sub_020997D0(v0);
+    RelearnMoveData_Free(v0);
 
     return 0;
 }
 
 BOOL ScrCmd_225(ScriptContext *param0)
 {
-    UnkStruct_020997B8 *v0;
+    RelearnMoveData *v0;
     u16 *v1 = ScriptContext_GetVarPointer(param0);
     void **v2 = FieldSystem_GetScriptMemberPtr(param0->fieldSystem, 19);
 
@@ -164,7 +164,7 @@ BOOL ScrCmd_225(ScriptContext *param0)
         *v1 = 0xff;
     }
 
-    sub_020997D0(v0);
+    RelearnMoveData_Free(v0);
 
     return 0;
 }

@@ -5,17 +5,17 @@
 #include "pokemon.h"
 #include "trainer_info.h"
 
-typedef struct {
-    Pokemon *unk_00;
-    TrainerInfo *unk_04;
+typedef struct RelearnMoveData {
+    Pokemon *mon;
+    TrainerInfo *trainerInfo;
     Options *options;
-    u16 *unk_0C;
+    u16 *relearnList;
     u16 unk_10;
     u16 unk_12;
     u8 unk_14;
     u8 unk_15;
     u8 unk_16;
     u8 unk_17;
-} UnkStruct_020997B8;
+} RelearnMoveData;
 
 #endif // POKEPLATINUM_STRUCT_020997B8_H

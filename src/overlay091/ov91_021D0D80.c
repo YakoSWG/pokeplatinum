@@ -42,7 +42,7 @@
 #include "constdata/const_020F410C.h"
 
 typedef struct {
-    UnkStruct_020997B8 *unk_00;
+    RelearnMoveData *unk_00;
     BgConfig *unk_04;
     Window unk_08[15];
     MessageLoader *unk_F8;
@@ -728,13 +728,13 @@ static int ov91_021D1394(UnkStruct_ov91_021D0ED8 *param0)
 static int ov91_021D13E4(UnkStruct_ov91_021D0ED8 *param0)
 {
     u32 v0 = ov91_021D1DD0(param0);
-    Pokemon_SetValue(param0->unk_00->unk_00, MON_DATA_MOVE1 + param0->unk_00->unk_17, &v0);
+    Pokemon_SetValue(param0->unk_00->mon, MON_DATA_MOVE1 + param0->unk_00->unk_17, &v0);
 
     v0 = 0;
-    Pokemon_SetValue(param0->unk_00->unk_00, MON_DATA_MOVE1_PP_UPS + param0->unk_00->unk_17, &v0);
+    Pokemon_SetValue(param0->unk_00->mon, MON_DATA_MOVE1_PP_UPS + param0->unk_00->unk_17, &v0);
 
     v0 = MoveTable_CalcMaxPP(ov91_021D1DD0(param0), 0);
-    Pokemon_SetValue(param0->unk_00->unk_00, MON_DATA_MOVE1_CUR_PP + param0->unk_00->unk_17, &v0);
+    Pokemon_SetValue(param0->unk_00->mon, MON_DATA_MOVE1_CUR_PP + param0->unk_00->unk_17, &v0);
 
     param0->unk_00->unk_16 = 0;
 
@@ -875,7 +875,7 @@ static u32 ov91_021D175C(UnkStruct_ov91_021D0ED8 *param0)
     u32 v0;
 
     for (v0 = 0; v0 < 256; v0++) {
-        if (param0->unk_00->unk_0C[v0] == 0xffff) {
+        if (param0->unk_00->relearnList[v0] == 0xffff) {
             break;
         }
     }
@@ -896,9 +896,9 @@ static void ov91_021D1784(UnkStruct_ov91_021D0ED8 *param0)
         0, 26, 647, 67);
 
     for (v2 = 0; v2 < param0->unk_184; v2++) {
-        if (param0->unk_00->unk_0C[v2] != 0xffff) {
+        if (param0->unk_00->relearnList[v2] != 0xffff) {
             StringList_AddFromMessageBank(
-                param0->unk_108, v0, param0->unk_00->unk_0C[v2], param0->unk_00->unk_0C[v2]);
+                param0->unk_108, v0, param0->unk_00->relearnList[v2], param0->unk_00->relearnList[v2]);
         } else {
             StringList_AddFromMessageBank(
                 param0->unk_108, param0->unk_F8, 32, 0xfffffffe);
@@ -1075,39 +1075,39 @@ static void ov91_021D1C10(UnkStruct_ov91_021D0ED8 *param0, u32 param1)
 
     switch (param1) {
     case 0:
-        StringTemplate_SetNickname(param0->unk_FC, 0, Pokemon_GetBoxPokemon(param0->unk_00->unk_00));
+        StringTemplate_SetNickname(param0->unk_FC, 0, Pokemon_GetBoxPokemon(param0->unk_00->mon));
         break;
     case 1:
         StringTemplate_SetMoveName(param0->unk_FC, 1, ov91_021D1DD0(param0));
         break;
     case 2:
-        StringTemplate_SetNickname(param0->unk_FC, 0, Pokemon_GetBoxPokemon(param0->unk_00->unk_00));
+        StringTemplate_SetNickname(param0->unk_FC, 0, Pokemon_GetBoxPokemon(param0->unk_00->mon));
         break;
     case 3:
-        StringTemplate_SetNickname(param0->unk_FC, 0, Pokemon_GetBoxPokemon(param0->unk_00->unk_00));
+        StringTemplate_SetNickname(param0->unk_FC, 0, Pokemon_GetBoxPokemon(param0->unk_00->mon));
         StringTemplate_SetMoveName(param0->unk_FC, 1, ov91_021D1DD0(param0));
         break;
     case 4:
-        StringTemplate_SetNickname(param0->unk_FC, 0, Pokemon_GetBoxPokemon(param0->unk_00->unk_00));
+        StringTemplate_SetNickname(param0->unk_FC, 0, Pokemon_GetBoxPokemon(param0->unk_00->mon));
         StringTemplate_SetMoveName(param0->unk_FC, 1, ov91_021D1DD0(param0));
         break;
     case 5:
-        StringTemplate_SetNickname(param0->unk_FC, 0, Pokemon_GetBoxPokemon(param0->unk_00->unk_00));
+        StringTemplate_SetNickname(param0->unk_FC, 0, Pokemon_GetBoxPokemon(param0->unk_00->mon));
         StringTemplate_SetMoveName(param0->unk_FC, 1, ov91_021D1DE0(param0));
         break;
     case 6:
-        StringTemplate_SetNickname(param0->unk_FC, 0, Pokemon_GetBoxPokemon(param0->unk_00->unk_00));
+        StringTemplate_SetNickname(param0->unk_FC, 0, Pokemon_GetBoxPokemon(param0->unk_00->mon));
         StringTemplate_SetMoveName(param0->unk_FC, 1, ov91_021D1DD0(param0));
         break;
     case 7:
         StringTemplate_SetMoveName(param0->unk_FC, 1, ov91_021D1DD0(param0));
         break;
     case 8:
-        StringTemplate_SetNickname(param0->unk_FC, 0, Pokemon_GetBoxPokemon(param0->unk_00->unk_00));
+        StringTemplate_SetNickname(param0->unk_FC, 0, Pokemon_GetBoxPokemon(param0->unk_00->mon));
         StringTemplate_SetMoveName(param0->unk_FC, 1, ov91_021D1DD0(param0));
         break;
     case 9:
-        StringTemplate_SetPlayerName(param0->unk_FC, 2, param0->unk_00->unk_04);
+        StringTemplate_SetPlayerName(param0->unk_FC, 2, param0->unk_00->trainerInfo);
         break;
     case 10:
         StringTemplate_SetMoveName(param0->unk_FC, 0, ov91_021D1DE0(param0));
@@ -1121,12 +1121,12 @@ static void ov91_021D1C10(UnkStruct_ov91_021D0ED8 *param0, u32 param1)
 
 static u16 ov91_021D1DD0(UnkStruct_ov91_021D0ED8 *param0)
 {
-    return param0->unk_00->unk_0C[param0->unk_00->unk_12 + param0->unk_00->unk_10];
+    return param0->unk_00->relearnList[param0->unk_00->unk_12 + param0->unk_00->unk_10];
 }
 
 static u16 ov91_021D1DE0(UnkStruct_ov91_021D0ED8 *param0)
 {
-    return (u16)Pokemon_GetValue(param0->unk_00->unk_00, MON_DATA_MOVE1 + param0->unk_00->unk_17, NULL);
+    return (u16)Pokemon_GetValue(param0->unk_00->mon, MON_DATA_MOVE1 + param0->unk_00->unk_17, NULL);
 }
 
 static void ov91_021D1DF8(UnkStruct_ov91_021D0ED8 *param0, u32 param1)
@@ -1164,7 +1164,7 @@ static u8 ov91_021D1EA0(UnkStruct_ov91_021D0ED8 *param0)
     u8 v0;
 
     for (v0 = 0; v0 < LEARNED_MOVES_MAX; v0++) {
-        if (Pokemon_GetValue(param0->unk_00->unk_00, MON_DATA_MOVE1 + v0, NULL) == 0) {
+        if (Pokemon_GetValue(param0->unk_00->mon, MON_DATA_MOVE1 + v0, NULL) == 0) {
             break;
         }
     }
@@ -1366,7 +1366,7 @@ static void ov91_021D2314(UnkStruct_ov91_021D0ED8 *param0)
             ManagedSprite_SetDrawFlag(param0->unk_118[6 + v0], 0);
         } else {
             ManagedSprite_SetDrawFlag(param0->unk_118[6 + v0], 1);
-            ov91_021D22A0(param0, param0->unk_00->unk_0C[param0->unk_00->unk_12 + v0], v0);
+            ov91_021D22A0(param0, param0->unk_00->relearnList[param0->unk_00->unk_12 + v0], v0);
         }
     }
 }
@@ -1383,8 +1383,8 @@ static void ov91_021D237C(UnkStruct_ov91_021D0ED8 *param0, u16 param1, u16 param
             if (v2 == 32) {
                 v2 = ((((((32 + 16) + 16) + 16) + 16) + 16) + 16);
 
-                if (param0->unk_00->unk_0C[param2 + 6] != 0xffff) {
-                    ov91_021D22A0(param0, param0->unk_00->unk_0C[param2 + 6], v0);
+                if (param0->unk_00->relearnList[param2 + 6] != 0xffff) {
+                    ov91_021D22A0(param0, param0->unk_00->relearnList[param2 + 6], v0);
                 }
             } else {
                 v2 -= 16;
@@ -1399,8 +1399,8 @@ static void ov91_021D237C(UnkStruct_ov91_021D0ED8 *param0, u16 param1, u16 param
             if (v2 == ((((((32 + 16) + 16) + 16) + 16) + 16) + 16)) {
                 v2 = 32;
 
-                if (param0->unk_00->unk_0C[param2] != 0xffff) {
-                    ov91_021D22A0(param0, param0->unk_00->unk_0C[param2], v0);
+                if (param0->unk_00->relearnList[param2] != 0xffff) {
+                    ov91_021D22A0(param0, param0->unk_00->relearnList[param2], v0);
                 }
             } else {
                 v2 += 16;
@@ -1492,7 +1492,7 @@ static int ov91_021D261C(UnkStruct_ov91_021D0ED8 *param0)
 
     ov91_021D0F6C(param0);
 
-    param0->unk_14C.monData = param0->unk_00->unk_00;
+    param0->unk_14C.monData = param0->unk_00->mon;
     param0->unk_14C.options = param0->unk_00->options;
     param0->unk_14C.dataType = SUMMARY_DATA_MON;
     param0->unk_14C.monIndex = 0;

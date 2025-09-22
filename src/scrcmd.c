@@ -154,6 +154,7 @@
 #include "scrcmd_item.h"
 #include "scrcmd_jubilife_lottery.h"
 #include "scrcmd_money.h"
+#include "scrcmd_move_relearner.h"
 #include "scrcmd_mystery_gift.h"
 #include "scrcmd_party.h"
 #include "scrcmd_shop.h"
@@ -194,7 +195,6 @@
 #include "unk_02048DD8.h"
 #include "unk_020494DC.h"
 #include "unk_0204AEE8.h"
-#include "unk_0204EDA4.h"
 #include "unk_0204F04C.h"
 #include "unk_0204F13C.h"
 #include "unk_0204FAB4.h"
@@ -1312,9 +1312,9 @@ const ScrCmdFunc Unk_020EAC58[] = {
     ScrCmd_ActivateRoamingPokemon,
     ScrCmd_21D,
     ScrCmd_Dummy21E,
-    ScrCmd_21F,
-    ScrCmd_220,
-    ScrCmd_221,
+    ScrCmd_HasRelearnableMove,
+    ScrCmd_Dummy220,
+    ScrCmd_ShowMoveRelearner,
     ScrCmd_222,
     ScrCmd_223,
     ScrCmd_224,

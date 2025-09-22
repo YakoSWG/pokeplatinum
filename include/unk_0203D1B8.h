@@ -94,7 +94,7 @@ void sub_0203E224(FieldSystem *fieldSystem);
 void sub_0203E234(FieldSystem *fieldSystem, UnkStruct_0203E234 *param1);
 void *sub_0203E244(FieldSystem *fieldSystem);
 void sub_0203E274(FieldSystem *fieldSystem, UnkStruct_0203E274 *param1);
-void sub_0203E284(FieldSystem *fieldSystem, UnkStruct_020997B8 *param1);
+void FieldSystem_LaunchMoveRelearnApp(FieldSystem *fieldSystem, RelearnMoveData *param1);
 void FieldTask_PlayBoatCutscene_CanalaveShip(FieldSystem *fieldSystem, void *taskEnv);
 void FieldTask_PlayBoatCutscene_SnowpointShip(FieldSystem *fieldSystem, void *taskEnv);
 void sub_0203E2FC(FieldSystem *fieldSystem);

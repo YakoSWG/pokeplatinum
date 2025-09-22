@@ -3,89 +3,98 @@
 #include <nitro.h>
 #include <string.h>
 
+#include "constants/moves.h"
+
+#include "struct_defs/species.h"
 #include "struct_defs/struct_020997B8.h"
 
 #include "heap.h"
+#include "moves.h"
 #include "pokemon.h"
 
-UnkStruct_020997B8 *sub_020997B8(u32 heapID)
+RelearnMoveData *RelearnMoveData_New(u32 heapID)
 {
-    UnkStruct_020997B8 *v0 = Heap_Alloc(heapID, sizeof(UnkStruct_020997B8));
+    RelearnMoveData *relearnData = Heap_Alloc(heapID, sizeof(RelearnMoveData));
 
-    memset(v0, 0, sizeof(UnkStruct_020997B8));
-    return v0;
+    memset(relearnData, 0, sizeof(RelearnMoveData));
+    return relearnData;
 }
 
-void sub_020997D0(UnkStruct_020997B8 *param0)
+void RelearnMoveData_Free(RelearnMoveData *relearnData)
 {
-    Heap_Free(param0);
+    Heap_Free(relearnData);
 }
 
-u16 *sub_020997D8(Pokemon *mon, u32 heapID)
+u16 *GetRelearnableMoves(Pokemon *mon, u32 heapID)
 {
-    u16 *v0;
-    u16 *v1;
-    u16 v2[4];
-    u16 v3;
-    u8 v4;
-    u8 v5;
-    u8 v6, v7, v8;
+    u16 *learnset;
+    u16 *relearnList;
+    u16 knownMoves[LEARNED_MOVES_MAX];
+    u16 species;
+    u8 level;
+    u8 form;
+    u8 moveIdx, learnsetIdx, relearnIdx;
 
-    v3 = (u16)Pokemon_GetValue(mon, MON_DATA_SPECIES, NULL);
-    v5 = (u8)Pokemon_GetValue(mon, MON_DATA_FORM, NULL);
-    v4 = (u8)Pokemon_GetValue(mon, MON_DATA_LEVEL, NULL);
+    species = (u16)Pokemon_GetValue(mon, MON_DATA_SPECIES, NULL);
+    form = (u8)Pokemon_GetValue(mon, MON_DATA_FORM, NULL);
+    level = (u8)Pokemon_GetValue(mon, MON_DATA_LEVEL, NULL);
 
-    for (v7 = 0; v7 < LEARNED_MOVES_MAX; v7++) {
-        v2[v7] = (u16)Pokemon_GetValue(mon, MON_DATA_MOVE1 + v7, NULL);
+    for (learnsetIdx = 0; learnsetIdx < LEARNED_MOVES_MAX; learnsetIdx++) {
+        knownMoves[learnsetIdx] = (u16)Pokemon_GetValue(mon, MON_DATA_MOVE1 + learnsetIdx, NULL);
     }
 
-    v0 = Heap_Alloc(heapID, (44 / 2) * 2);
-    v1 = Heap_Alloc(heapID, (44 / 2) * 2);
+    learnset = Heap_Alloc(heapID, sizeof(SpeciesLearnset));
+    relearnList = Heap_Alloc(heapID, sizeof(SpeciesLearnset));
 
-    Pokemon_LoadLevelUpMovesOf(v3, v5, v0);
+    Pokemon_LoadLevelUpMovesOf(species, form, learnset);
 
-    v8 = 0;
+    relearnIdx = 0;
 
-    for (v7 = 0; v7 < (44 / 2); v7++) {
-        if (v0[v7] == 0xffff) {
-            v1[v8] = 0xffff;
+    for (learnsetIdx = 0; learnsetIdx < sizeof(SpeciesLearnset) / 2; learnsetIdx++) {
+        if (learnset[learnsetIdx] == LEARNSET_ALL_SLOTS_FILLED) {
+            relearnList[relearnIdx] = LEARNSET_ALL_SLOTS_FILLED;
             break;
-        } else if (((v0[v7] & 0xfe00) >> 9) > v4) {
+        } else if (((learnset[learnsetIdx] & 0xFE00) >> 9) > level) {
             continue;
         } else {
-            v0[v7] &= 0x1ff;
+            learnset[learnsetIdx] &= 0x1FF;
 
-            for (v6 = 0; v6 < 4; v6++) {
-                if (v0[v7] == v2[v6]) {
+            // Check if move is already known
+            for (moveIdx = 0; moveIdx < LEARNED_MOVES_MAX; moveIdx++) {
+                if (learnset[learnsetIdx] == knownMoves[moveIdx]) {
                     break;
                 }
             }
 
-            if (v6 == 4) {
-                for (v6 = 0; v6 < v8; v6++) {
-                    if (v1[v6] == v0[v7]) {
+            // True if move is not known
+            if (moveIdx == LEARNED_MOVES_MAX) {
+
+                // Check if move is already in relearnable list
+                for (moveIdx = 0; moveIdx < relearnIdx; moveIdx++) {
+                    if (relearnList[moveIdx] == learnset[learnsetIdx]) {
                         break;
                     }
                 }
 
-                if (v6 == v8) {
-                    v1[v8] = v0[v7];
-                    v8++;
+                // True if move is not already in relearnable list so add it
+                if (moveIdx == relearnIdx) {
+                    relearnList[relearnIdx] = learnset[learnsetIdx];
+                    relearnIdx++;
                 }
             }
         }
     }
 
-    Heap_Free(v0);
+    Heap_Free(learnset);
 
-    return v1;
+    return relearnList;
 }
 
-BOOL sub_020998D8(u16 *param0)
+BOOL HasRelearnableMoves(u16 *relearnableMoves)
 {
-    if (param0[0] == 0xffff) {
-        return 0;
+    if (relearnableMoves[0] == LEARNSET_ALL_SLOTS_FILLED) {
+        return FALSE;
     }
 
-    return 1;
+    return TRUE;
 }
