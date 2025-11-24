@@ -71,12 +71,12 @@ u8 SealCase_GetSealCount(const SealCounts *seals, int sealNum)
     return seals->count[sealNum];
 }
 
-BOOL sub_0202CA94(const BallCapsule *ballCapsule, int param1)
+BOOL BallCapsule_IsSealApplied(const BallCapsule *ballCapsule, int sealNum)
 {
-    int v0, i;
+    int unused, i;
 
     for (i = 0; i < SEALS_PER_CAPSULE; i++) {
-        if (ballCapsule->seals[i].type == (param1 + 1)) {
+        if (ballCapsule->seals[i].type == (sealNum + 1)) {
             return TRUE;
         }
     }
@@ -84,14 +84,14 @@ BOOL sub_0202CA94(const BallCapsule *ballCapsule, int param1)
     return FALSE;
 }
 
-int sub_0202CAB0(const SealCase *sealCase, int param1)
+int SealCase_GetAppliedSealCount(const SealCase *sealCase, int sealNum)
 {
     int i, j;
     int count = 0;
 
     for (i = 0; i < TOTAL_CAPSULES; i++) {
         for (j = 0; j < SEALS_PER_CAPSULE; j++) {
-            if (sealCase->capsules[i].seals[j].type == (param1 + 1)) {
+            if (sealCase->capsules[i].seals[j].type == (sealNum + 1)) {
                 count++;
             }
         }
@@ -100,78 +100,78 @@ int sub_0202CAB0(const SealCase *sealCase, int param1)
     return count;
 }
 
-void sub_0202CADC(SealCounts *seals, int param1, int param2)
+void SealCase_SetSealCount(SealCounts *seals, int sealNum, int sealCount)
 {
-    seals->count[param1] = param2;
+    seals->count[sealNum] = sealCount;
 }
 
-BOOL sub_0202CAE0(SealCase *param0, int param1, s16 param2)
+BOOL SealCase_TryChangeSealCount(SealCase *sealCase, int sealID, s16 changeAmount)
 {
-    int v0;
-    int v1;
+    int appliedSealCount;
+    int totalSealCount;
 
-    v0 = sub_0202CAB0(param0, param1 - 1);
-    v1 = v0 + param0->seals.count[param1 - 1];
+    appliedSealCount = SealCase_GetAppliedSealCount(sealCase, sealID - 1);
+    totalSealCount = appliedSealCount + sealCase->seals.count[sealID - 1];
 
-    if (param2 < 0) {
-        if (param0->seals.count[param1 - 1] + param2 >= 0) {
-            param0->seals.count[param1 - 1] += param2;
+    if (changeAmount < 0) {
+        if (sealCase->seals.count[sealID - 1] + changeAmount >= 0) {
+            sealCase->seals.count[sealID - 1] += changeAmount;
         } else {
-            return 0;
+            return FALSE;
         }
     } else {
-        if (v1 + param2 <= MAX_SEALS_PER_TYPE) {
-            param0->seals.count[param1 - 1] += param2;
+        if (totalSealCount + changeAmount <= MAX_SEALS_PER_TYPE) {
+            sealCase->seals.count[sealID - 1] += changeAmount;
         } else {
-            return 0;
+            return FALSE;
         }
     }
 
-    return 1;
+    return TRUE;
 }
 
-BOOL sub_0202CB20(SealCase *sealCase, int param1, s16 param2)
+BOOL sub_0202CB20(SealCase *sealCase, int sealID, s16 changeAmount)
 {
-    int v0;
-    int v1;
+    int appliedSealCount;
+    int stillAppliedSealCount;
 
-    v0 = sub_0202CAB0(sealCase, param1 - 1);
-    v1 = v0;
+    appliedSealCount = SealCase_GetAppliedSealCount(sealCase, sealID - 1);
+    stillAppliedSealCount = appliedSealCount;
 
-    if (param2 < 0) {
-        if (sealCase->seals.count[param1 - 1] + param2 >= 0) {
-            sealCase->seals.count[param1 - 1] += param2;
+    if (changeAmount < 0) {
+        if (sealCase->seals.count[sealID - 1] + changeAmount >= 0) {
+            sealCase->seals.count[sealID - 1] += changeAmount;
         } else {
-            return 0;
+            return FALSE;
         }
     } else {
-        if (v1 + param2 <= MAX_SEALS_PER_TYPE) {
-            sealCase->seals.count[param1 - 1] += param2;
+        if (stillAppliedSealCount + changeAmount <= MAX_SEALS_PER_TYPE) {
+            sealCase->seals.count[sealID - 1] += changeAmount;
 
-            if (sealCase->seals.count[param1 - 1] >= MAX_SEALS_PER_TYPE) {
-                sealCase->seals.count[param1 - 1] = MAX_SEALS_PER_TYPE;
+            if (sealCase->seals.count[sealID - 1] >= MAX_SEALS_PER_TYPE) {
+                sealCase->seals.count[sealID - 1] = MAX_SEALS_PER_TYPE;
             }
         } else {
-            return 0;
+            return FALSE;
         }
     }
 
-    return 1;
+    return TRUE;
 }
 
-BOOL sub_0202CB70(SealCase *sealCase, int param1, s16 param2)
+BOOL SealCase_CanChangeSealAmount(SealCase *sealCase, int sealID, s16 changeAmount)
 {
-    int v0 = sub_0202CAB0(sealCase, param1 - 1);
-    int v1 = v0 + sealCase->seals.count[param1 - 1];
+    int appliedSealCount = SealCase_GetAppliedSealCount(sealCase, sealID - 1);
+    int totalSealCount = appliedSealCount + sealCase->seals.count[sealID - 1];
 
-    if (param2 < 0) {
-        if (sealCase->seals.count[param1 - 1] + param2 >= 0) {
+    if (changeAmount < 0) {
+        if (sealCase->seals.count[sealID - 1] + changeAmount >= 0) {
             return TRUE;
         } else {
             return FALSE;
         }
     } else {
-        if (v1 + param2 <= MAX_SEALS_PER_TYPE) {
+        if (totalSealCount + changeAmount <= MAX_SEALS_PER_TYPE) {
             return TRUE;
         } else {
             return FALSE;
@@ -181,27 +181,27 @@ BOOL sub_0202CB70(SealCase *sealCase, int param1, s16 param2)
     return TRUE;
 }
 
-int sub_0202CBA8(const SealCase *sealCase)
+int SealCase_GetObtainedSealCount(const SealCase *sealCase)
 {
     int i;
-    int v1 = 0;
+    int count = 0;
 
     for (i = 1; i < SEAL_ID_MAX; i++) {
-        if (sub_0202CBC8(sealCase, i) != 0) {
-            v1++;
+        if (SealCase_GetTotalSealCount(sealCase, i) != 0) {
+            count++;
         }
     }
 
-    return v1;
+    return count;
 }
 
-int sub_0202CBC8(const SealCase *sealCase, int param1)
+int SealCase_GetTotalSealCount(const SealCase *sealCase, int sealID)
 {
-    int v0;
-    int v1;
+    int appliedSealCount;
+    int totalSealCount;
 
-    v0 = sub_0202CAB0(sealCase, param1 - 1);
-    v1 = v0 + sealCase->seals.count[param1 - 1];
+    appliedSealCount = SealCase_GetAppliedSealCount(sealCase, sealID - 1);
+    totalSealCount = appliedSealCount + sealCase->seals.count[sealID - 1];
 
-    return v1;
+    return totalSealCount;
 }

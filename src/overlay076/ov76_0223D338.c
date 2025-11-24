@@ -84,7 +84,7 @@ void ov76_0223D384(UnkStruct_ov76_0223DE00 *param0)
     int i;
 
     for (i = 0; i < (80 + 1); i++) {
-        sub_0202CADC(param0->unk_64, i, param0->unk_80[i]);
+        SealCase_SetSealCount(param0->unk_64, i, param0->unk_80[i]);
     }
 }
 
@@ -605,7 +605,7 @@ void ov76_0223DA34(u32 param0, enum TouchScreenButtonState param1, void *param2)
                     v1 = sub_02098164(v0->unk_418.unk_08[param0]);
 
                     ov76_0223CDC4(&v0->unk_D4.unk_18[0], v1);
-                    sub_0202CAE0(v0->unk_00->unk_20, v0->unk_418.unk_08[param0], -1);
+                    SealCase_TryChangeSealCount(v0->unk_00->unk_20, v0->unk_418.unk_08[param0], -1);
                     ov76_0223CD20(v0, param0);
                     Sound_PlayEffect(SEQ_SE_DP_BOX02);
                 } else {

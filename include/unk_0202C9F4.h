@@ -17,13 +17,13 @@ u8 BallSeal_GetX(const BallSeal *seal);
 u8 BallSeal_GetY(const BallSeal *seal);
 SealCounts *SealCase_GetSealsObtained(SealCase *sealCase);
 u8 SealCase_GetSealCount(const SealCounts *seals, int sealNum);
-BOOL sub_0202CA94(const BallCapsule *param0, int param1);
-int sub_0202CAB0(const SealCase *param0, int param1);
-void sub_0202CADC(SealCounts *param0, int param1, int param2);
-BOOL sub_0202CAE0(SealCase *param0, int param1, s16 param2);
-BOOL sub_0202CB20(SealCase *param0, int param1, s16 param2);
-BOOL sub_0202CB70(SealCase *param0, int param1, s16 param2);
-int sub_0202CBA8(const SealCase *param0);
-int sub_0202CBC8(const SealCase *param0, int param1);
+BOOL BallCapsule_IsSealApplied(const BallCapsule *ballCapsule, int sealNum);
+int SealCase_GetAppliedSealCount(const SealCase *sealCase, int sealNum);
+void SealCase_SetSealCount(SealCounts *seals, int sealNum, int sealCount);
+BOOL SealCase_TryChangeSealCount(SealCase *sealCase, int sealID, s16 changeAmount);
+BOOL sub_0202CB20(SealCase *sealCase, int sealID, s16 changeAmount);
+BOOL SealCase_CanChangeSealAmount(SealCase *sealCase, int sealID, s16 changeAmount);
+int SealCase_GetObtainedSealCount(const SealCase *sealCase);
+int SealCase_GetTotalSealCount(const SealCase *sealCase, int sealID);
 
 #endif // POKEPLATINUM_UNK_0202C9F4_H
