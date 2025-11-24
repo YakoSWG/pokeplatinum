@@ -352,9 +352,9 @@ static BOOL ScrCmd_FacePlayer(ScriptContext *ctx);
 static BOOL ScrCmd_GetPlayerMapPos(ScriptContext *ctx);
 static BOOL ScrCmd_Unused_06A(ScriptContext *ctx);
 static BOOL ScrCmd_GetPlayerDir(ScriptContext *ctx);
-static BOOL ScrCmd_06B(ScriptContext *ctx);
-static BOOL ScrCmd_06C(ScriptContext *ctx);
-static BOOL ScrCmd_06D(ScriptContext *ctx);
+static BOOL ScrCmd_ShiftCamera(ScriptContext *ctx);
+static BOOL ScrCmd_SetKeepMapObj(ScriptContext *ctx);
+static BOOL ScrCmd_SetMapObjMoveCode(ScriptContext *ctx);
 static BOOL ScrCmd_GetMovementType(ScriptContext *ctx);
 static BOOL ScrCmd_Unused_06E(ScriptContext *ctx);
 static BOOL ScrCmd_093(ScriptContext *ctx);
@@ -876,9 +876,9 @@ const ScrCmdFunc Unk_020EAC58[] = {
     ScrCmd_FacePlayer,
     ScrCmd_GetPlayerMapPos,
     ScrCmd_Unused_06A,
-    ScrCmd_06B,
-    ScrCmd_06C,
-    ScrCmd_06D,
+    ScrCmd_ShiftCamera,
+    ScrCmd_SetKeepMapObj,
+    ScrCmd_SetMapObjMoveCode,
     ScrCmd_Unused_06E,
     ScrCmd_GiveMoney,
     ScrCmd_RemoveMoney,
@@ -3326,40 +3326,40 @@ static BOOL ScrCmd_GetPlayerDir(ScriptContext *ctx)
     return FALSE;
 }
 
-static BOOL ScrCmd_06B(ScriptContext *ctx)
+static BOOL ScrCmd_ShiftCamera(ScriptContext *ctx)
 {
     FieldSystem *fieldSystem = ctx->fieldSystem;
 
-    u16 v0 = ScriptContext_GetVar(ctx);
-    u16 v1 = ScriptContext_GetVar(ctx);
-    u16 v2 = ScriptContext_GetVar(ctx);
+    u16 x = ScriptContext_GetVar(ctx);
+    u16 y = ScriptContext_GetVar(ctx);
+    u16 z = ScriptContext_GetVar(ctx);
 
-    VecFx32 v3;
-    v3.x = FX32_CONST(v0);
-    v3.y = FX32_CONST(v1);
-    v3.z = FX32_CONST(v2);
+    VecFx32 cameraDelta;
+    cameraDelta.x = FX32_CONST(x);
+    cameraDelta.y = FX32_CONST(y);
+    cameraDelta.z = FX32_CONST(z);
 
-    sub_020630AC(Player_MapObject(ctx->fieldSystem->playerAvatar), &v3);
-    Camera_Move(&v3, ctx->fieldSystem->camera);
+    MapObject_SetSpriteOffset(Player_MapObject(ctx->fieldSystem->playerAvatar), &cameraDelta);
+    Camera_Move(&cameraDelta, ctx->fieldSystem->camera);
 
     return FALSE;
 }
 
-static BOOL ScrCmd_06C(ScriptContext *ctx)
+static BOOL ScrCmd_SetKeepMapObj(ScriptContext *ctx)
 {
     MapObject *mapObj = MapObjMan_LocalMapObjByIndex(ctx->fieldSystem->mapObjMan, ScriptContext_GetVar(ctx));
-    u8 v1 = ScriptContext_ReadByte(ctx);
+    u8 keepEnabled = ScriptContext_ReadByte(ctx);
 
-    sub_02062E5C(mapObj, v1);
+    MapObject_SetKeep(mapObj, keepEnabled);
     return FALSE;
 }
 
-static BOOL ScrCmd_06D(ScriptContext *ctx)
+static BOOL ScrCmd_SetMapObjMoveCode(ScriptContext *ctx)
 {
     MapObject *mapObj = MapObjMan_LocalMapObjByIndex(ctx->fieldSystem->mapObjMan, ScriptContext_GetVar(ctx));
-    u16 v1 = ScriptContext_ReadHalfWord(ctx);
+    u16 moveCode = ScriptContext_ReadHalfWord(ctx);
 
-    MapObject_SetMoveCode(mapObj, v1);
+    MapObject_SetMoveCode(mapObj, moveCode);
     return FALSE;
 }
 

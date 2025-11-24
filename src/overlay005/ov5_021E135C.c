@@ -63,7 +63,7 @@ static void ov5_021E139C(SysTask *param0, void *param1)
         sub_0206309C(v1, &v2);
         v2.y = ((FX32_ONE * 2.2) + ((FX32_ONE / 2) * v0->unk_0C)) * v0->unk_0C;
 
-        sub_020630AC(v1, &v2);
+        MapObject_SetSpriteOffset(v1, &v2);
         v0->unk_0C++;
 
         if (v0->unk_0C == 20) {
@@ -91,7 +91,7 @@ static void ov5_021E1470(SysTask *param0, void *param1)
         sub_0206309C(v1, &v2);
         v3 = (20 - v0->unk_0C);
         v2.y = ((FX32_ONE * 2.2) + ((FX32_ONE / 2) * v3)) * v3;
-        sub_020630AC(v1, &v2);
+        MapObject_SetSpriteOffset(v1, &v2);
         MapObject_Draw(v1);
     }
 
@@ -105,7 +105,7 @@ static void ov5_021E1470(SysTask *param0, void *param1)
         sub_0206309C(v1, &v2);
         v3 = (20 - v0->unk_0C);
         v2.y = ((FX32_ONE * 2.2) + ((FX32_ONE / 2) * v3)) * v3;
-        sub_020630AC(v1, &v2);
+        MapObject_SetSpriteOffset(v1, &v2);
         v0->unk_0C++;
 
         if (v0->unk_0C == 2) {

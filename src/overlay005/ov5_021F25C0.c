@@ -96,7 +96,7 @@ OverworldAnimManager *ov5_021F261C(MapObject *param0, int param1, int param2, in
         VecFx32 v3 = { 0, (FX32_ONE * 7), (FX32_ONE * 4) };
 
         MapObject_GetPosPtr(param0, &v1);
-        sub_020630AC(param0, &v3);
+        MapObject_SetSpriteOffset(param0, &v3);
     }
 
     {
@@ -128,7 +128,7 @@ static void ov5_021F26F0(OverworldAnimManager *param0, void *param1)
     MapObject *v1 = v0->unk_24.unk_0C;
     VecFx32 v2 = { 0, 0, 0 };
 
-    sub_020630AC(v1, &v2);
+    MapObject_SetSpriteOffset(v1, &v2);
 }
 
 static void ov5_021F2708(OverworldAnimManager *param0, void *param1)
@@ -174,7 +174,7 @@ static void ov5_021F2708(OverworldAnimManager *param0, void *param1)
         v2.y = v0->unk_1C + (FX32_ONE * 7);
         v2.z = (FX32_ONE * 4);
 
-        sub_020630AC(v1, &v2);
+        MapObject_SetSpriteOffset(v1, &v2);
     }
 
     {

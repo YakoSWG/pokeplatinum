@@ -37,7 +37,7 @@ _008E:
 
 _0090:
     HideObject LOCALID_PLAYER
-    ScrCmd_06B 8, 0, 0
+    ShiftCamera 8, 0, 0
     Return
 
 _009E:

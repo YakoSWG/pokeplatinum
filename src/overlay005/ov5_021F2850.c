@@ -180,7 +180,7 @@ static void ov5_021F29D0(OverworldAnimManager *param0, void *param1)
 
     {
         VecFx32 v2 = { 0, 0, 0 };
-        sub_020630AC(v1, &v2);
+        MapObject_SetSpriteOffset(v1, &v2);
     }
 
     {

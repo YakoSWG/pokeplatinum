@@ -356,7 +356,7 @@ _057A:
     BufferPlayerName 1
     Message 47
     CloseMessage
-    ScrCmd_06D 2, 15
+    SetMapObjMoveCode 2, 15
     GetPlayerStarterSpecies VAR_RESULT
     GoToIfEq VAR_RESULT, SPECIES_TURTWIG, Route201_StartFirstBattleTurtwig
     GoToIfEq VAR_RESULT, SPECIES_CHIMCHAR, Route201_StartFirstBattleChimchar
@@ -766,7 +766,7 @@ _0967:
     Message 53
     CloseMessage
     ClearHasPartner
-    ScrCmd_06D 2, 15
+    SetMapObjMoveCode 2, 15
     Return
 
 _097C:
@@ -776,8 +776,8 @@ _097C:
 
 _0986:
     SetHasPartner
-    ScrCmd_06D 2, 48
-    ScrCmd_06C 2, 1
+    SetMapObjMoveCode 2, 48
+    SetKeepMapObj 2, 1
     Return
 
     .balign 4, 0
@@ -840,7 +840,7 @@ _09E0:
 
 _0A3B:
     ClearHasPartner
-    ScrCmd_06D 2, 15
+    SetMapObjMoveCode 2, 15
     ApplyMovement LOCALID_PLAYER, _0A7C
     ApplyMovement 2, _0A68
     WaitMovement
@@ -1039,7 +1039,7 @@ _0CF1:
     RemoveObject 6
     RemoveObject 5
     SetVar VAR_FOLLOWER_RIVAL_STATE, 3
-    ScrCmd_06C 254, 0
+    SetKeepMapObj 254, 0
     ClearHasPartner
     SetFlag FLAG_UNK_0x0172
     SetFlag FLAG_UNK_0x0195
@@ -1258,8 +1258,8 @@ _0F4F:
     SetVar VAR_FOLLOWER_RIVAL_STATE, 3
     SetStepFlag
     SetHasPartner
-    ScrCmd_06D 2, 48
-    ScrCmd_06C 2, 1
+    SetMapObjMoveCode 2, 48
+    SetKeepMapObj 2, 1
     SetFlag FLAG_UNK_0x0172
     ReleaseAll
     End

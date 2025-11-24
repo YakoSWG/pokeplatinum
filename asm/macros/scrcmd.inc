@@ -690,23 +690,23 @@
     .short \arg2
     .endm
 
-    .macro ScrCmd_06B arg0, arg1, arg2
+    .macro ShiftCamera x, y, z
     .short 107
-    .short \arg0
-    .short \arg1
-    .short \arg2
+    .short \x
+    .short \y
+    .short \z
     .endm
 
-    .macro ScrCmd_06C arg0, arg1
+    .macro SetKeepMapObj localID, keep
     .short 108
-    .short \arg0
-    .byte \arg1
+    .short \localID
+    .byte \keep
     .endm
 
-    .macro ScrCmd_06D arg0, arg1
+    .macro SetMapObjMoveCode localID, moveCode
     .short 109
-    .short \arg0
-    .short \arg1
+    .short \localID
+    .short \moveCode
     .endm
 
     .macro ScrCmd_Unused_06E

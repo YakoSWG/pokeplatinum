@@ -78,7 +78,7 @@ typedef struct MapObject {
     int z;
     VecFx32 pos;
     VecFx32 spriteJumpOffset;
-    VecFx32 unk_88;
+    VecFx32 spriteOffset;
     VecFx32 spriteTerrainOffset;
     u32 unk_A0;
     enum MovementAction movementAction;
@@ -186,7 +186,7 @@ void sub_0206184C(MapObjectManager *mapObjMan, int mapID, int param2, int objEve
 
             switch (v0) {
             case 0:
-                if (sub_02062918(mapObj) != param2 && !MapObject_CheckStatusFlag(mapObj, MAP_OBJ_STATUS_10)) {
+                if (sub_02062918(mapObj) != param2 && !MapObject_CheckStatusFlag(mapObj, MAP_OBJ_STATUS_KEEP)) {
                     MapObject_Delete(mapObj);
                 }
                 break;
@@ -1851,12 +1851,12 @@ int MapObject_IsHeightCalculationDisabled(const MapObject *mapObj)
     return FALSE;
 }
 
-void sub_02062E5C(MapObject *mapObj, int param1)
+void MapObject_SetKeep(MapObject *mapObj, BOOL keepEnabled)
 {
-    if (param1 == TRUE) {
-        MapObject_SetStatusFlagOn(mapObj, MAP_OBJ_STATUS_10);
+    if (keepEnabled == TRUE) {
+        MapObject_SetStatusFlagOn(mapObj, MAP_OBJ_STATUS_KEEP);
     } else {
-        MapObject_SetStatusFlagOff(mapObj, MAP_OBJ_STATUS_10);
+        MapObject_SetStatusFlagOff(mapObj, MAP_OBJ_STATUS_KEEP);
     }
 }
 
@@ -2137,12 +2137,12 @@ VecFx32 *MapObject_GetSpriteJumpOffset1(MapObject *mapObj)
 
 void sub_0206309C(const MapObject *mapObj, VecFx32 *vec)
 {
-    *vec = mapObj->unk_88;
+    *vec = mapObj->spriteOffset;
 }
 
-void sub_020630AC(MapObject *mapObj, const VecFx32 *vec)
+void MapObject_SetSpriteOffset(MapObject *mapObj, const VecFx32 *vec)
 {
-    mapObj->unk_88 = *vec;
+    mapObj->spriteOffset = *vec;
 }
 
 void MapObject_GetSpriteTerrainOffset(const MapObject *mapObj, VecFx32 *spriteOffset)
