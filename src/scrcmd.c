@@ -357,8 +357,8 @@ static BOOL ScrCmd_SetKeepMapObj(ScriptContext *ctx);
 static BOOL ScrCmd_SetMapObjMoveCode(ScriptContext *ctx);
 static BOOL ScrCmd_GetMovementType(ScriptContext *ctx);
 static BOOL ScrCmd_Unused_06E(ScriptContext *ctx);
-static BOOL ScrCmd_093(ScriptContext *ctx);
-static BOOL ScrCmd_094(ScriptContext *ctx);
+static BOOL ScrCmd_GetTotalSealCount(ScriptContext *ctx);
+static BOOL ScrCmd_TryChangeSealCount(ScriptContext *ctx);
 static BOOL ScrCmd_GetPartyMonForm(ScriptContext *ctx);
 static BOOL ScrCmd_GetRematchTrainerID(ScriptContext *ctx);
 static BOOL ScrCmd_315(ScriptContext *ctx);
@@ -690,7 +690,7 @@ static BOOL ScrCmd_2A3(ScriptContext *ctx);
 static BOOL ScrCmd_2A4(ScriptContext *ctx);
 static BOOL ScrCmd_CheckItemIsPlate(ScriptContext *ctx);
 static BOOL ScrCmd_2AA(ScriptContext *ctx);
-static BOOL ScrCmd_2AB(ScriptContext *ctx);
+static BOOL ScrCmd_GetAllObtainedSealCount(ScriptContext *ctx);
 static BOOL ScrCmd_UnlockMysteryGift(ScriptContext *ctx);
 static BOOL ScrCmd_2AF(ScriptContext *ctx);
 static BOOL ScrCmd_2B0(ScriptContext *ctx);
@@ -916,8 +916,8 @@ const ScrCmdFunc Unk_020EAC58[] = {
     ScrCmd_Dummy090,
     ScrCmd_Dummy091,
     ScrCmd_Dummy092,
-    ScrCmd_093,
-    ScrCmd_094,
+    ScrCmd_GetTotalSealCount,
+    ScrCmd_TryChangeSealCount,
     ScrCmd_GetPartyMonForm,
     ScrCmd_GivePokemon,
     ScrCmd_GiveEgg,
@@ -1452,7 +1452,7 @@ const ScrCmdFunc Unk_020EAC58[] = {
     ScrCmd_SubstractCoinsFromVar,
     ScrCmd_HasCoinsFromVar,
     ScrCmd_2AA,
-    ScrCmd_2AB,
+    ScrCmd_GetAllObtainedSealCount,
     ScrCmd_UnlockMysteryGift,
     ScrCmd_GetMovementType,
     ScrCmd_IsSequencePlaying,
@@ -3385,7 +3385,7 @@ static BOOL ScrCmd_Unused_06E(ScriptContext *ctx)
     return FALSE;
 }
 
-static BOOL ScrCmd_2AB(ScriptContext *ctx)
+static BOOL ScrCmd_GetAllObtainedSealCount(ScriptContext *ctx)
 {
     u16 *destVar = ScriptContext_GetVarPointer(ctx);
 
@@ -3395,23 +3395,23 @@ static BOOL ScrCmd_2AB(ScriptContext *ctx)
     return FALSE;
 }
 
-static BOOL ScrCmd_093(ScriptContext *ctx)
+static BOOL ScrCmd_GetTotalSealCount(ScriptContext *ctx)
 {
-    u16 v1 = ScriptContext_GetVar(ctx);
-    u16 *v2 = ScriptContext_GetVarPointer(ctx);
+    u16 sealID = ScriptContext_GetVar(ctx);
+    u16 *destVar = ScriptContext_GetVarPointer(ctx);
 
     SealCase *sealCase = SaveData_GetSealCase(ctx->fieldSystem->saveData);
-    *v2 = SealCase_GetTotalSealCount(sealCase, v1);
+    *destVar = SealCase_GetTotalSealCount(sealCase, sealID);
 
     return FALSE;
 }
 
-static BOOL ScrCmd_094(ScriptContext *ctx)
+static BOOL ScrCmd_TryChangeSealCount(ScriptContext *ctx)
 {
-    u16 v0 = ScriptContext_GetVar(ctx);
-    u16 v1 = ScriptContext_GetVar(ctx);
+    u16 sealID = ScriptContext_GetVar(ctx);
+    u16 amount = ScriptContext_GetVar(ctx);
 
-    SealCase_TryChangeSealCount(SaveData_GetSealCase(ctx->fieldSystem->saveData), v0, v1);
+    SealCase_TryChangeSealCount(SaveData_GetSealCase(ctx->fieldSystem->saveData), sealID, amount);
     return FALSE;
 }
 

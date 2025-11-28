@@ -938,16 +938,16 @@
     .short \dummy3
     .endm
 
-    .macro ScrCmd_093 arg0, arg1
+    .macro GetTotalSealCount sealID, destVar
     .short 147
-    .short \arg0
-    .short \arg1
+    .short \sealID
+    .short \destVar
     .endm
 
-    .macro ScrCmd_094 arg0, arg1
+    .macro TryChangeSealCount sealID, amount
     .short 148
-    .short \arg0
-    .short \arg1
+    .short \sealID
+    .short \amount
     .endm
 
     .macro GetPartyMonForm partySlot, destVar
@@ -4068,9 +4068,9 @@
     .short \arg4
     .endm
 
-    .macro ScrCmd_2AB arg0
+    .macro GetAllObtainedSealCount destVar
     .short 683
-    .short \arg0
+    .short \var
     .endm
 
     .macro UnlockMysteryGift
