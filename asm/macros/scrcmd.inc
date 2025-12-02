@@ -1025,7 +1025,7 @@
     .short 162
     .endm
 
-    .macro ScrCmd_0A3
+    .macro OpenConnectToWiFiScreen
     .short 163
     .endm
 
@@ -1034,13 +1034,13 @@
     .short \arg0
     .endm
 
-    .macro ScrCmd_0A5
+    .macro OpenBattlePhraseMenu
     .short 165
     .endm
 
-    .macro ScrCmd_0A6 arg0, arg1, arg2
+    .macro OpenDressUpScreen partySlot, arg1, arg2
     .short 166
-    .short \arg0
+    .short \partySlot
     .short \arg1
     .short \arg2
     .endm
@@ -4070,7 +4070,7 @@
 
     .macro GetAllObtainedSealCount destVar
     .short 683
-    .short \var
+    .short \destVar
     .endm
 
     .macro UnlockMysteryGift

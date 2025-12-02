@@ -818,10 +818,10 @@ void sub_0203D9D8(FieldSystem *fieldSystem, UnkStruct_ov90_021D0D80 *param1)
     FieldSystem_StartChildProcess(fieldSystem, &v0, param1);
 }
 
-static UnkStruct_0203DA00 *sub_0203DA00(int heapID, SaveData *saveData, int param2, BOOL *param3, BOOL param4)
+static UnkStruct_0203DA00 *sub_0203DA00(int heapID, SaveData *saveData, int partySlot, BOOL *param3, BOOL param4)
 {
     UnkStruct_0203DA00 *v0;
-    Pokemon *v1;
+    Pokemon *mon;
     int v2;
     UnkStruct_0202A750 *v3;
     UnkStruct_02029C68 *v4;
@@ -829,9 +829,9 @@ static UnkStruct_0203DA00 *sub_0203DA00(int heapID, SaveData *saveData, int para
 
     v0 = Heap_Alloc(heapID, sizeof(UnkStruct_0203DA00));
     memset(v0, 0, sizeof(UnkStruct_0203DA00));
-    v1 = Party_GetPokemonBySlotIndex(SaveData_GetParty(saveData), param2);
+    mon = Party_GetPokemonBySlotIndex(SaveData_GetParty(saveData), partySlot);
 
-    v0->unk_00 = v1;
+    v0->mon = mon;
 
     v3 = sub_0202A750(saveData);
     v4 = sub_02029CA8(v3, 0);
@@ -841,7 +841,7 @@ static UnkStruct_0203DA00 *sub_0203DA00(int heapID, SaveData *saveData, int para
     v0->unk_08 = v5;
     v0->options = SaveData_GetOptions(saveData);
     v0->records = SaveData_GetGameRecords(saveData);
-    v0->unk_14 = SaveData_GetTrainerInfo(saveData);
+    v0->trainerInfo = SaveData_GetTrainerInfo(saveData);
     v0->unk_18 = param3;
     v0->unk_1C = param4;
 
@@ -877,15 +877,15 @@ static BOOL sub_0203DA64(FieldTask *param0)
     return 0;
 }
 
-void sub_0203DAC0(FieldTask *param0, u16 *param1, SaveData *saveData, u16 param3, u16 param4)
+void sub_0203DAC0(FieldTask *task, u16 *param1, SaveData *saveData, u16 partySlot, u16 param4)
 {
     UnkStruct_0203DA64 *v0 = Heap_Alloc(HEAP_ID_FIELD3, sizeof(UnkStruct_0203DA64));
     memset(v0, 0, sizeof(UnkStruct_0203DA64));
 
-    v0->unk_0C = sub_0203DA00(HEAP_ID_FIELD3, saveData, param3, &v0->unk_08, param4);
+    v0->unk_0C = sub_0203DA00(HEAP_ID_FIELD3, saveData, partySlot, &v0->unk_08, param4);
     v0->unk_04 = param1;
 
-    FieldTask_InitCall(param0, sub_0203DA64, v0);
+    FieldTask_InitCall(task, sub_0203DA64, v0);
 }
 
 BOOL sub_0203DB10(FieldSystem *fieldSystem, void *param1)

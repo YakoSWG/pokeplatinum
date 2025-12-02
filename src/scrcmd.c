@@ -369,7 +369,7 @@ static BOOL ScrCmd_Unused_09F(ScriptContext *ctx);
 static BOOL ScrCmd_ReturnToField(ScriptContext *ctx);
 static BOOL ScrCmd_1F8(ScriptContext *ctx);
 static BOOL ScrCmd_0A2(ScriptContext *ctx);
-static BOOL ScrCmd_0A3(ScriptContext *ctx);
+static BOOL ScrCmd_OpenConnectToWiFiScreen(ScriptContext *ctx);
 static BOOL ScrCmd_Unused_0A4(ScriptContext *ctx);
 static BOOL ScrCmd_GetCurNetID(ScriptContext *ctx);
 static BOOL ScrCmd_DrawPokemonPreview(ScriptContext *ctx);
@@ -377,9 +377,9 @@ static void FieldSystem_WriteSpeciesSeen(FieldSystem *fieldSystem, u16 param1);
 static BOOL ScrCmd_209(ScriptContext *ctx);
 static BOOL ScrCmd_20A(ScriptContext *ctx);
 static BOOL ScrCmd_20B(ScriptContext *ctx);
-static BOOL ScrCmd_0A5(ScriptContext *ctx);
+static BOOL ScrCmd_OpenBattlePhraseMenu(ScriptContext *ctx);
 static BOOL ScrCmd_30E(ScriptContext *ctx);
-static BOOL ScrCmd_0A6(ScriptContext *ctx);
+static BOOL ScrCmd_OpenDressUpScreen(ScriptContext *ctx);
 static BOOL ScrCmd_0A7(ScriptContext *ctx);
 static BOOL ScrCmd_0A8(ScriptContext *ctx);
 static BOOL ScrCmd_12E(ScriptContext *ctx);
@@ -932,10 +932,10 @@ const ScrCmdFunc Unk_020EAC58[] = {
     ScrCmd_Dummy0A0,
     ScrCmd_ReturnToField,
     ScrCmd_0A2,
-    ScrCmd_0A3,
+    ScrCmd_OpenConnectToWiFiScreen,
     ScrCmd_Unused_0A4,
-    ScrCmd_0A5,
-    ScrCmd_0A6,
+    ScrCmd_OpenBattlePhraseMenu,
+    ScrCmd_OpenDressUpScreen,
     ScrCmd_0A7,
     ScrCmd_0A8,
     ScrCmd_OpenSealCapsuleEditor,
@@ -3819,9 +3819,9 @@ static BOOL ScrCmd_0A2(ScriptContext *ctx)
     return TRUE;
 }
 
-static BOOL ScrCmd_0A3(ScriptContext *ctx)
+static BOOL ScrCmd_OpenConnectToWiFiScreen(ScriptContext *ctx)
 {
-    sub_0207DDC0(ctx->task);
+    FieldTask_ConnectToWiFiScreen(ctx->task);
     return TRUE;
 }
 
@@ -3939,7 +3939,7 @@ static BOOL ScrCmd_20B(ScriptContext *ctx)
     return FALSE;
 }
 
-static BOOL ScrCmd_0A5(ScriptContext *ctx)
+static BOOL ScrCmd_OpenBattlePhraseMenu(ScriptContext *ctx)
 {
     sub_0209ACF4(ctx->task);
     return TRUE;
@@ -3953,13 +3953,13 @@ static BOOL ScrCmd_30E(ScriptContext *ctx)
     return TRUE;
 }
 
-static BOOL ScrCmd_0A6(ScriptContext *ctx)
+static BOOL ScrCmd_OpenDressUpScreen(ScriptContext *ctx)
 {
-    u16 v0 = ScriptContext_GetVar(ctx);
+    u16 partySlot = ScriptContext_GetVar(ctx);
     u16 *v1 = ScriptContext_GetVarPointer(ctx);
     u16 v2 = ScriptContext_GetVar(ctx);
 
-    sub_0203DAC0(ctx->fieldSystem->task, v1, ctx->fieldSystem->saveData, v0, v2);
+    sub_0203DAC0(ctx->fieldSystem->task, v1, ctx->fieldSystem->saveData, partySlot, v2);
     return TRUE;
 }
 

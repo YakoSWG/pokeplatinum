@@ -307,7 +307,7 @@ static UnkStruct_0207DE40 *sub_0207DD94(void)
     return v0;
 }
 
-void sub_0207DDC0(FieldTask *param0)
+void FieldTask_ConnectToWiFiScreen(FieldTask *param0)
 {
     UnkStruct_0207DE40 *v0 = sub_0207DD94();
 

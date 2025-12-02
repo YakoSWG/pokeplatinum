@@ -122,7 +122,7 @@ _01EC:
     SetFlag FLAG_UNK_0x0088
     FadeScreenOut
     WaitFadeScreen
-    ScrCmd_0A6 VAR_MAP_LOCAL_2, VAR_0x8005, VAR_0x8007
+    OpenDressUpScreen VAR_MAP_LOCAL_2, VAR_0x8005, VAR_0x8007
     ReturnToField
     ApplyMovement LOCALID_PLAYER, _0360
     WaitMovement

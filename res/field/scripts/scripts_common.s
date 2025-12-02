@@ -1071,7 +1071,7 @@ _0ECF:
     GoTo _0E83
 
 _0EE0:
-    ScrCmd_2AB VAR_RESULT
+    GetAllObtainedSealCount VAR_RESULT
     GoToIfEq VAR_RESULT, 0, _0F01
     CloseMessage
     Call _0F94
@@ -1452,7 +1452,7 @@ _139D:
     PlayFanfare SEQ_SE_CONFIRM
     LockAll
     FacePlayer
-    ScrCmd_0A5
+    OpenBattlePhraseMenu
     ReleaseAll
     End
 

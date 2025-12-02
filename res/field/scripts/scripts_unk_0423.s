@@ -227,11 +227,11 @@ _0333:
     ScrCmd_1F8
     ScrCmd_2A4 VAR_RESULT
     GoToIfEq VAR_RESULT, 0, _035A
-    ScrCmd_0A3
+    OpenConnectToWiFiScreen
     GoTo _035C
 
 _035A:
-    ScrCmd_0A3
+    OpenConnectToWiFiScreen
 _035C:
     ReturnToField
     FadeScreenIn

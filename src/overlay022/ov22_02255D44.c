@@ -218,7 +218,7 @@ int ov22_02255D44(ApplicationManager *appMan, int *param1)
 
     v0->unk_3C8 = ov22_02254DE0(700, HEAP_ID_13);
 
-    ov22_02256708(v0, v2->unk_00, 10, 0);
+    ov22_02256708(v0, v2->mon, 10, 0);
     ov22_022567FC(v0);
     ov22_02256948(v0, 0);
     ov22_0225699C(v0);
@@ -363,7 +363,7 @@ int ov22_02256098(ApplicationManager *appMan, int *param1)
 
     if (v0->unk_71C == 1) {
         GameRecords_IncrementTrainerScore(v2->records, TRAINER_SCORE_EVENT_UNK_07);
-        ov22_02256F38(v2->unk_04, &v0->unk_458, v2->unk_14);
+        ov22_02256F38(v2->unk_04, &v0->unk_458, v2->trainerInfo);
     }
 
     if (v2->unk_18 != NULL) {
